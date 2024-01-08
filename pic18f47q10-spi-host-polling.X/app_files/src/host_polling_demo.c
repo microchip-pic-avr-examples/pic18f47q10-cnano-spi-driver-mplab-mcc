@@ -41,7 +41,7 @@
 
 
 // Functions
-void DemoInitialize()
+void DemoInitialize(void)
 {
     SPI_Host.Initialize();
     SPI_Host.Open(SEVENSEG);
@@ -58,10 +58,22 @@ void DisplayCustomCharacter(uint8_t input)
 
 void DisplayNumber(uint8_t numberInput)
 {
+    uint8_t sevenSegNumbers[] = {
+        0X7E,   /**< Hex for digit 0 */
+        0X0A,   /**< Hex for digit 1 */
+        0XB6,   /**< Hex for digit 2 */
+        0X9E,   /**< Hex for digit 3 */
+        0XCA,   /**< Hex for digit 4 */
+        0XDC,   /**< Hex for digit 5 */
+        0XFC,   /**< Hex for digit 6 */
+        0X0E,   /**< Hex for digit 7 */
+        0XFE,   /**< Hex for digit 8 */
+        0XDE    /**< Hex for digit 9 */
+    };
     uint8_t displayNumber[2], digit;
-    digit = numberInput%10;
+    digit = numberInput%10u;
     displayNumber[0] = sevenSegNumbers[digit];
-    digit = numberInput/10;
+    digit = numberInput/10u;
     displayNumber[1] = sevenSegNumbers[digit];
     CS1_SetLow();
     SPI_Host.BufferExchange(displayNumber, 2);
@@ -70,29 +82,34 @@ void DisplayNumber(uint8_t numberInput)
 
 bool ButtonPress(void)
 {   
-    static int8_t debounce = 10;
-    static unsigned int buttonState = 0;
-    static char buttonPressEnabled = 1;
+    static uint8_t debounce = 10u;
+    static uint8_t buttonState = 0u;
+    static bool buttonPressEnabled = true;
+    bool returnValue = false;
 
-    if(SW0_GetValue() == 0)
+    if(0u == SW0_GetValue())
     {       
         if(buttonState < debounce)
         {
             buttonState++;
         }
-        else if(buttonPressEnabled)
+        else if(true == buttonPressEnabled)
         {
-            buttonPressEnabled = 0;
-            return true;
+            buttonPressEnabled = false;
+            returnValue = true;
+        }
+        else
+        {
+            // Do Nothing
         }
     }
-    else if(buttonState > 0 )
+    else if(buttonState > 0u)
     {
         buttonState--;
     }
     else
     {
-        buttonPressEnabled = 1;
+        buttonPressEnabled = true;
     }
-    return false;
+    return returnValue;
 }

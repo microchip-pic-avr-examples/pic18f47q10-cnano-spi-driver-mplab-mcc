@@ -38,24 +38,6 @@
 // Included files
 #include "../mcc_generated_files/system/system.h"
 
-// Variables
-/**
- * @brief Array containing hex codes for digits from 0-9
- * @ingroup hostpollingdemo
- */
-uint8_t sevenSegNumbers[] = {
-    0X7E,
-    0X0A,
-    0XB6,
-    0X9E,
-    0XCA,
-    0XDC,
-    0XFC,
-    0X0E,
-    0XFE,
-    0XDE
-};
-
 // Functions
 /**
  * @ingroup hostpollingdemo

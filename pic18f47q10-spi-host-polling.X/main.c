@@ -57,7 +57,7 @@ int main(void)
     // Disable the Peripheral Interrupts 
     //INTERRUPT_PeripheralInterruptDisable(); 
 
-    uint8_t numberDisplayed = 0;
+    uint8_t numberDisplayed = 0u;
     
     DemoInitialize();
         
@@ -70,7 +70,7 @@ int main(void)
         {
             // Increment number displayed
             DisplayNumber(numberDisplayed);
-            numberDisplayed = numberDisplayed<99 ? ++numberDisplayed : 0;
+            numberDisplayed = (numberDisplayed<99u) ? ++numberDisplayed : 0u;
         }
     }    
 }
