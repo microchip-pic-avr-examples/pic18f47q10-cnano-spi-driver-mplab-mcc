@@ -11,7 +11,7 @@
 */
 
 /*
-© [2024] Microchip Technology Inc. and its subsidiaries.
+Â© [2024] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -57,55 +57,42 @@ int main(void)
     // Disable the Peripheral Interrupts 
     //INTERRUPT_PeripheralInterruptDisable();
 
-    uint8_t numberDisplayed = 0;    
-    bool displayBusy = false;
+    uint8_t numberDisplayed = 0;    // Next number to be displayed
+    bool displayBusy = false;       // Tracks status of display
     
     DemoInitialize();
     LED0_SetHigh(); // Turn off LED0
     
-    while (AssertDevice() == false)
-    {
-        // Wait for operation to finish
-    }
-    DisplayCustomCharacter(0X80);  // -
-    while (DeassertDevice() ==  false)
-    {
-        // Wait for operation to finish
-    }
-    
-    while (AssertDevice() == false)
-    {
-        // Wait for operation to finish
-    }
-    DisplayCustomCharacter(0X80);  // -
-    while (DeassertDevice() ==  false)
-    {
-        // Wait for operation to finish
-    }
+    DisplayCustomCharacter(0x80);  // -
+    DisplayCustomCharacter(0x80);  // -
     
     while(1)
     {
         if (true == displayBusy)
         {
-            if (DeassertDevice() ==  true)
-            {
-                displayBusy = false;                        
-            }            
+            displayBusy = !(DeassertDevice()); // Display no longer busy once DeassertDevice() returns true
+        }
+        else
+        {
+            // Do nothing
         }
         
         if(ButtonPress())
         {
-            if (false == displayBusy)
+            displayBusy = DisplayNumber(numberDisplayed);
+            if (true == displayBusy)
             {
-                // Increment number displayed
-                while (AssertDevice() == false)
-                {
-                    // Wait for operation to finish
-                }
-                DisplayNumber(numberDisplayed);
-                displayBusy = true;
+                // Increment number to be displayed next if request was accepted
                 numberDisplayed = (numberDisplayed<99u) ? ++numberDisplayed : 0u;
             }
+            else
+            {
+                // Do nothing
+            }
+        }
+        else
+        {
+            // Do nothing
         }
     }    
 }

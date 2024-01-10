@@ -12,7 +12,7 @@
  */
 
 /*
-© [2023] Microchip Technology Inc. and its subsidiaries.
+© [2024] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -48,21 +48,6 @@ void DemoInitialize(void)
     SPI_Host.RxCompleteCallbackRegister(DisplayCompleteCallback);
 }
 
-bool AssertDevice(void)
-{
-    bool returnValue;
-    if (SPI_Host.IsTxReady() == true)
-    {
-        CS1_SetLow();
-        returnValue = true;
-    }
-    else
-    {
-        returnValue = false;
-    }
-    return returnValue;
-}
-
 bool DeassertDevice(void)
 {
     bool returnValue;
@@ -80,37 +65,49 @@ bool DeassertDevice(void)
 
 void DisplayCustomCharacter(uint8_t input)
 {
-    uint8_t recVal = 0X00;
+    uint8_t recVal = 0x00;
+    CS1_SetLow();
     recVal = SPI_Host.ByteExchange(input);
+    CS1_SetHigh();
 }
 
-void DisplayNumber(uint8_t numberInput)
+bool DisplayNumber(uint8_t numberInput)
 {
-    uint8_t sevenSegNumbers[] = {
-        0X7E,   /**< Hex for digit 0 */
-        0X0A,   /**< Hex for digit 1 */
-        0XB6,   /**< Hex for digit 2 */
-        0X9E,   /**< Hex for digit 3 */
-        0XCA,   /**< Hex for digit 4 */
-        0XDC,   /**< Hex for digit 5 */
-        0XFC,   /**< Hex for digit 6 */
-        0X0E,   /**< Hex for digit 7 */
-        0XFE,   /**< Hex for digit 8 */
-        0XDE    /**< Hex for digit 9 */
+    bool returnValue = false;
+    static const uint8_t sevenSegNumbers[] = {
+        0x7E,   /**< Hex for digit 0 */
+        0x0A,   /**< Hex for digit 1 */
+        0xB6,   /**< Hex for digit 2 */
+        0x9E,   /**< Hex for digit 3 */
+        0xCA,   /**< Hex for digit 4 */
+        0xDC,   /**< Hex for digit 5 */
+        0xFC,   /**< Hex for digit 6 */
+        0x0E,   /**< Hex for digit 7 */
+        0xFE,   /**< Hex for digit 8 */
+        0xDE    /**< Hex for digit 9 */
     };
-    uint8_t static displayNumber[2];
-    uint8_t digit;
-    digit = numberInput%10u;
-    displayNumber[0] = sevenSegNumbers[digit];
-    digit = numberInput/10u;
-    displayNumber[1] = sevenSegNumbers[digit];
-    SPI_Host.BufferExchange(displayNumber, 2);
+    if (SPI_Host.IsTxReady() == true)
+    {
+        uint8_t static displayNumber[2];
+        uint8_t digit;
+        digit = numberInput%10u;
+        displayNumber[0] = sevenSegNumbers[digit];
+        digit = numberInput/10u;
+        displayNumber[1] = sevenSegNumbers[digit];
+        CS1_SetLow();
+        SPI_Host.BufferExchange(displayNumber, 2);
+        returnValue= true;
+    }
+    else
+    {
+        returnValue = false;
+    }
+    return returnValue;
 }
 
 void DisplayCompleteCallback(void)
 {
     LED0_Toggle();
-//    DeassertDevice();
 }
 
 bool ButtonPress(void)

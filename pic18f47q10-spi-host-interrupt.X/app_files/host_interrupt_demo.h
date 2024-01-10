@@ -12,7 +12,7 @@
  */
 
 /*
-© [2023] Microchip Technology Inc. and its subsidiaries.
+© [2024] Microchip Technology Inc. and its subsidiaries.
 
     Subject to your compliance with these terms, you may use Microchip 
     software and any derivatives exclusively with Microchip products. 
@@ -41,19 +41,11 @@
 // Functions
 /**
  * @ingroup hostinterruptdemo
- * @brief Initializes SPI and opens configuration fro 7-segment display.
+ * @brief Initializes SPI and opens configuration for 7-segment display.
  * @param None.
  * @return None.
  */
 void DemoInitialize(void);
-
-/**
- * @brief Pulls Chip Select line low if the device is ready to be used.
- * @param None.
- * @return true If Chip Select is pulled low successfully
- * @return false If Chip Select could not be pulled low as device is not idle.
- */
-bool AssertDevice(void);
 
 /**
  * @brief Pulls Chip Select line high if the device is idle.
@@ -65,21 +57,23 @@ bool DeassertDevice(void);
 
 /**
  * @ingroup hostinterruptdemo
- * @brief Displays a custom character number on the 7-segment
+ * @brief Displays a custom character number on the 7-segment.
  * @param input Single character input
  * @return None.
  * @note Character displayed on left display first and shifted to right display
- * on second input.
+ * on second input. Blocking function.
  */
 void DisplayCustomCharacter(uint8_t input);
 
 /**
  * @ingroup hostinterruptdemo
- * @brief Displays a 2 digit number on the 7-segment.
+ * @brief Displays a 2 digit number on the 7-segment if idle.
  * @param numberInput Two digit number
- * @return None.
+ * @return true If display was idle and request was sent.
+ * @return false If display was busy and request was not sent.
+ * @note Non-blocking function. De-assert the device after call.
  */
-void DisplayNumber(uint8_t numberInput);
+bool DisplayNumber(uint8_t numberInput);
 
 /**
  * @ingroup hostinterruptdemo
