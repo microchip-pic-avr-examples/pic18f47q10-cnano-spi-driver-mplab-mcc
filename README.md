@@ -76,15 +76,15 @@ This code example demonstrates how to communicate as host and client using the S
 5. Navigate to the extracted source code folder and select all three projects with `spi-client` in the project names.
 6. Click the **Open Project** button in the window.
    <br><img src="images/client/open-spi-client-projects.png" alt="Open SPI Client Projects">
-9. Connect one development board to the system. Make note of the serial number on the back of the development board.
-10. From the Projects window on MPLAB, right click the `pic18f47q10-spi-client-tester` project and select Make and Program Device to program the code to the device.
+7. Connect one development board to the system. Make note of the serial number on the back of the development board.
+8.  From the Projects window on MPLAB, right click the `pic18f47q10-spi-client-tester` project and select Make and Program Device to program the code to the device.
    <br><img src="images/client/program-client-tester.png" alt="Make and Program Client Tester" width="40%">
-11. A dialog box will pop up to select the tool to be programmed. Select the connected tool from the drop-down box. Click **OK**.
+9.  A dialog box will pop up to select the tool to be programmed. Select the connected tool from the drop-down box. Click **OK**.
    <br><img src="images/common/select-device.png" alt="Select Device" width="40%">
-12. After programming the device, the onboard LED0 will flash once every second indicating that it is working as expected. The setup for testing client projects is now complete. Disconnect the tester for now. The `spi-client-polling` and `spi-client-interrupt` projects are preconfigured as mentioned in the next two points.
-13. The following configuration was made in MCC Melody UI for SPI Client Driver polling project with Interrupt Driven toggled on for the interrupt project:
+10. After programming the device, the onboard LED0 will flash once every second indicating that it is working as expected. The setup for testing client projects is now complete. Disconnect the tester for now. The `spi-client-polling` and `spi-client-interrupt` projects are preconfigured as mentioned in the next two points.
+11. The following configuration was made in MCC Melody UI for SPI Client Driver polling project with Interrupt Driven toggled on for the interrupt project:
    <br><img src="images/client/client-configuration.png" alt="client Configuration" width="60%">
-14. The following pin configurations were made in MCC Melody UI for both SPI Client Driver projects:
+12. The following pin configurations were made in MCC Melody UI for both SPI Client Driver projects:
    <br><img src="images/client/client-pin-configuration.png" alt="client Pin Configuration" width="100%">
 
 ### Operation: Client Polling
