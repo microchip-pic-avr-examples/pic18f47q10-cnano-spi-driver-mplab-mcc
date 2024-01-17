@@ -42,11 +42,14 @@
             "EUSART"
         ],
         "keywords": [
+            "MCC",
             "Melody",
             "MCC Melody",
             "Curiosity",
 			"Curiosity Nano",
-			"SPI"
+			"SPI",
+            "MSSP",
+            "SPI Protocol"
         ],
         "additionalData": {
             "longDescription": {
